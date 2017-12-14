@@ -1,0 +1,52 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:		smc-milter
+# Required-Start:	$network
+# Required-Stop:
+# Default-Start:	2 3 4 5
+# Default-Stop:		0 1 6
+# Short-Description:	initscript for smc-milter
+# Description:		SMC anti-spam e-mail filter
+### END INIT INFO
+
+set -e
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DESC="anti-spam filter"
+NAME=smc-milter
+DAEMON=/usr/sbin/$NAME
+PIDFILE=/var/run/$NAME/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+
+test -x $DAEMON || exit 0
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+    log_daemon_msg "Starting $DESC: $NAME"
+    start-stop-daemon --start --pidfile $PIDFILE --quiet --oknodo --exec $DAEMON && \
+	log_end_msg 0 || log_end_msg 1
+    ;;
+  stop)
+    log_daemon_msg "Stopping $DESC: $NAME"
+    start-stop-daemon --stop --quiet --oknodo --pidfile $PIDFILE --exec $DAEMON && \
+	log_end_msg 0 || log_end_msg 1
+    rm -f $PIDFILE
+    ;;
+  restart)
+    $0 stop
+    $0 start
+    ;;
+  reload|force-reload)
+    log_daemon_msg "Reloading $NAME configuration files:"
+    start-stop-daemon --stop --pidfile $PIDFILE --signal 1 --exec $DAEMON && \
+	log_end_msg 0 || log_end_msg 1
+    ;;
+  *)
+    log_success_msg "Usage: $SCRIPTNAME {start|stop|restart|reload}"
+    exit 1
+    ;;
+esac
+
+exit 0

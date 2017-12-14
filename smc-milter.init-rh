@@ -1,0 +1,95 @@
+#!/bin/sh
+#
+# $Id: smc-milter.init-rh,v 1.4 2008/06/27 11:42:42 ald Exp $
+#
+# description: SMC anti-spam e-mail filter
+#
+# chkconfig: - 80 20
+# processname: smc-milter
+
+# Source function library.
+if [ -f /etc/init.d/functions ] ; then
+  . /etc/init.d/functions
+elif [ -f /etc/rc.d/init.d/functions ] ; then
+  . /etc/rc.d/init.d/functions
+else
+  exit 0
+fi
+
+DAEMON_OPT=""
+DAEMON_CMD="/usr/sbin/smc-milter"
+DAEMON_CNF="/etc/smc-milter.conf"
+LOCKFILE="/var/lock/subsys/smc-milter"
+
+# Check that daemon exists.
+[ -f "$DAEMON_CMD" ] || exit 0
+
+# Check that daemon config file exists.
+[ -f "$DAEMON_CNF" ] || exit 0
+
+RETVAL=0
+
+start() {
+	# Start daemon.
+	echo -n "Starting anti-spam filter: "
+	daemon $DAEMON_CMD $DAEMON_OPT
+	RETVAL=$?
+	[ $RETVAL -eq 0 ] && touch $LOCKFILE
+	echo
+	return $RETVAL
+}
+
+stop() {
+	# Stop daemon.
+	echo -n "Shutdowning anti-spam filter: "
+	killproc smc-milter
+	RETVAL=$?
+        if [ $RETVAL -eq 0 ] ; then echo_success
+	    else echo_failure
+	fi
+	[ $RETVAL -eq 0 ] && rm -f $LOCKFILE
+	echo
+	return $RETVAL
+}
+
+reload () {
+	# Reload daemon configuration.
+	echo -n $"Reloading anti-spam filter configuration: "
+	killproc smc-milter -HUP
+	RETVAL=$?
+        if [ $RETVAL -eq 0 ] ; then echo_success
+	    else echo_failure
+	fi
+	echo
+	return $RETVAL
+}
+
+# See how we were called.
+case "$1" in
+  start)
+	start
+	RETVAL=$?
+	;;
+  stop)
+	stop
+	RETVAL=$?
+	;;
+  restart)
+	stop
+	start
+	RETVAL=$?
+	;;
+  reload)
+	reload
+	RETVAL=$?
+	;;
+  status)
+	status smc-milter
+	RETVAL=$?
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart|reload|status}"
+	exit 1
+esac
+
+exit $RETVAL

@@ -1,0 +1,59 @@
+#!/sbin/runscript
+#
+# $Id: smc-milter.init-gentoo,v 1.4 2008/06/27 11:42:42 ald Exp $
+#
+# description: SMC anti-spam e-mail filter
+#
+# chkconfig: - 80 20
+# processname: smc-milter
+
+extra_commands="checkconfig"
+
+DAEMON_OPT=""
+DAEMON_CMD="/usr/sbin/smc-milter"
+DAEMON_CNF="/etc/smc-milter.conf"
+LOCKFILE="/var/lock/subsys/smc-milter"
+
+# Check that daemon exists.
+#[ -f "$DAEMON_CMD" ] || exit 0
+
+RETVAL=0
+
+checkconfig() {
+	if [ ! -e ${DAEMON_CNF} ] ; then
+	    eerror "You need to create ${DAEMON_CNF} first."
+	    eerror "An example can be found in ${DAEMON_CNF}.new"
+	    return 1
+	fi
+}
+
+start() {
+	checkconfig || return 1
+	# Start daemon.
+	ebegin "Starting anti-spam filter: "
+	mkdir -m 0750 -p /var/run/smc-milter/
+	chown postfix:postfix /var/run/smc-milter/
+	start-stop-daemon --start --pidfile /var/run/smc-milter/smc-milter.pid --exec ${DAEMON_CMD} ${DAEMON_OPT}
+	eend $? "Failed to start anti-spam"
+}
+
+stop() {
+	# Stop daemon.
+	ebegin "Shutdowning anti-spam filter: "
+	start-stop-daemon --stop --pidfile /var/run/smc-milter/smc-milter.pid
+	eend $? "Failed to stop anti-spam"
+	sleep 1 # needed for syslog-ng to stop in case we're restarting
+}
+
+reload () {
+	if [ ! -f /var/run/smc-milter/smc-milter.pid ]; then
+	    eerror "anti-spam filter isn't running"
+	return 1
+	fi
+	checkconfig || return 1
+	ebegin "Reloading configuration and re-opening log files"
+	start-stop-daemon --signal HUP \
+	    --pidfile /var/run/smc-milter/smc-milter.pid
+	eend $?
+}
+

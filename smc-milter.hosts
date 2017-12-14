@@ -1,0 +1,17 @@
+#
+# SMC-milter hosts file
+#
+# Skip this hosts or networks without any checks.
+#
+# lines preceded by a '#' are comments
+#-----------------------------------------------------------------------------
+# Forefront Online Protection for Exchange Online IP Addresses
+# http://technet.microsoft.com/en-us/library/hh510075.aspx
+65.55.88.0/24      # Forefront Online Protection for Exchange
+94.245.120.64/26   # Forefront Online Protection for Exchange
+207.46.51.64/26    # Forefront Online Protection for Exchange
+207.46.163.0/24    # Forefront Online Protection for Exchange
+213.199.154.0/24   # Forefront Online Protection for Exchange
+213.199.180.128/26 # Forefront Online Protection for Exchange
+216.32.180.0/24    # Forefront Online Protection for Exchange
+216.32.181.0/24    # Forefront Online Protection for Exchange

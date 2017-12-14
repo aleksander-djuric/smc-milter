@@ -1,0 +1,130 @@
+2015-04-20  Aleksander Djuric <ald@true-audio.com>
+
+	* Release (2.2): Released. Small bug fix in ClamAV support code.
+	Added Gentoo startup script (file smc-milter.init-gentoo). Minor changes
+	to config defaults.
+
+2008-06-29  Aleksander Djuric <ald@true-audio.com>, Stanislav Ivankin <stas@concat.info>
+	* Release (2.1): Released. Added classic SPF support (file spf.c), add
+	'classicspf' option in config file (enabled by default). Fixed potencial
+	bug in cache algorithm. Configuration reload added on signal 1 (SIGHUP).
+	Updated FreeBSD startup script (file smc-milter.sh). Small code cleanup
+	and optimization. Documentation fix.
+
+2008-06-15  Aleksander Djuric <ald@true-audio.com>, Stanislav Ivankin <stas@concat.info>
+	* (2.0.3): "NS Relay" algorithm renamed to AutoSPF. Auto-confirmation
+	algorithm renamed to AutoSWL (Auto Sender White List). AutoSPF algorithm
+	optimization. Small bug fix in AutoSPF code. Add new 'autospf' and
+	'autoswl' options in config file. Documentation fix.
+
+2008-06-11  Aleksander Djuric <ald@true-audio.com>, Stanislav Ivankin <stas@concat.info>
+	* (2.0.2): Bug fix in greylisting code. Various cosmetic changes.
+	More checks for configuration data. Minor changes to config defaults.
+	Changed database records format. Old database need to be removed
+	during install.
+
+2008-06-06  Aleksander Djuric <ald@true-audio.com>, Stanislav Ivankin <stas@concat.info>
+	* (2.0.1): Check return codes, various potential bugs fixed. {client_addr}
+	and {client_name} macros are no longer required. Added 'pidfile' parameter
+	in config file to define the new pid file location if required. Added
+	'database' parameter in config file to change the default location of
+	filter database file location. Code cleanup.
+
+2008-05-28  Aleksander Djuric <ald@true-audio.com>, Stanislav Ivankin <stas@concat.info>
+
+	* Release (2.0): Released. Added virus check with ClamAV (file
+	virus.c), add 'clamcheck' option in config file. Critical bug fix
+	in "Check Delay" functions. Add 'action' option in config file for
+	default filter action. Fixes for running with Postfix. Documentation fix.
+	Code cleanup, optimization. Removed some redundant features, such as
+	DNSRBL support, because all MTA do it. Removed smc-milter.policy
+	configuration file.
+
+2007-02-26  Aleksander Djuric <ald@true-audio.com>
+
+	* Release (1.9): Released. A lot of changes.
+	Removed 'extrename' feature. Removed 'cleanhtml' feature.
+	Removed 'e-mail address verification' functions. Added new
+	'smc-milter.hosts' configuration file.
+
+2005-08-01  Pavel Zhilin <pzh@true-audio.com>
+
+	* Release (1.8): Released. Add checks to prevent overwrite all
+	configuration data during install. Minor bug fix in ns-relay code.
+
+2005-07-30  Aleksander Djuric <ald@true-audio.com>, Pavel Zhilin <pzh@true-audio.com>
+
+	* Release (1.7): Released. CLOSE_WAIT problems solved (critical
+	bug). Critical bug fix to prevent DNS storms. All of the
+	resolver functions uses the local resolver context. Added
+	automake and autoconf support.
+
+2005-04-18  Aleksander Djuric <ald@true-audio.com>, Pavel Zhilin <pzh@true-audio.com>
+
+	* Release (1.6): Released. All data in memory, .access & .queue
+	database maps are removed. Database purge cron-script is no longer
+	used. The resolver overload is considerably reduced; All queries
+	are cached, Small changes in sendmail.mc required (see file
+	INSTALL for details), Fixed small bugs in mx-lookup and
+	check-regex algorithms, The filter is much more stable and
+	faster.
+
+2005-04-05  Aleksander Djuric <ald@true-audio.com>
+
+	* Release (1.5): Released. Removed Kaspersky anti-virus support.
+	'checklocal' feature removed. New ability to check remote recipient if
+	allowed. Config 'autoconfirm' parameter no longer supported,
+	auto-confirmation feature always enabled. Known bugs fixed. Glibc
+	2.1 bugs fixed.
+
+2004-09-23  Aleksander Djuric <ald@true-audio.com>, Pavel Zhilin <pzh@true-audio.com>
+
+	* Release (1.4): Released. Minor bugfixes. Added regex
+	based remote hostname/ip checks. Changed 'policy' configuration
+	file format.
+
+2003-11-26  Aleksander Djuric <ald@true-audio.com>
+
+	* (1.2.2): Miscellaneous changes in ns-relay algorithm. Added
+	checks of MX hosts addresses.
+
+2008-11-10  Aleksander Djuric <ald@true-audio.com>
+
+	* (1.2.1): Added 'checklocal' parameter in config file, the feature has ability
+	to enable/disable checking of the local addresses.
+
+2008-05-28  Aleksander Djuric <ald@true-audio.com>, Pavel Zhilin <pzh@true-audio.com>
+
+	* Release (1.2): Released. Users access files are no longer
+	supported. Filter now works with a non local users. New
+	contacts confirmation algorithm is applied.
+
+2003-10-10  Aleksander Djuric <ald@true-audio.com>, Pavel Zhilin <pzh@true-audio.com>
+
+	* Release (1.1): Released. Added Kaspersky anti-virus support.
+	Changed default socket timeout value. Changed recommended timeout
+	values in sendmail.mc Code cleanup.
+
+2003-08-31  Aleksander Djuric <ald@true-audio.com>
+
+	* Prerelease (1.0.9): Critical bugs fixed. Added new
+	parameter 'maxdelay' in the filter configuration file. Added new
+	option 'confirm' for users access files.
+
+2003-08-25  Aleksander Djuric <ald@true-audio.com>, Anton Gorbunov <anton@iszf.irk.ru>
+
+	* (1.0.8): Bugfixes.
+
+2003-07-22  Aleksander Djuric <ald@true-audio.com>, Anton Gorbunov <anton@iszf.irk.ru>
+
+	* (1.0.7): Development version.
+
+2003-05-30  Aleksander Djuric <ald@true-audio.com>, Anton Gorbunov <anton@iszf.irk.ru>
+
+	* (1.0.6): Filter now starts in background by default. Added auto
+	whitelist feature for users out contacts. Code cleanup. Some
+	functions where rewrited. Minor bugs fixed.
+
+2003-05-12  Aleksander Djuric <ald@true-audio.com>
+
+	* Initial (1.0.5): Released.
